@@ -1,5 +1,5 @@
-import { Button, Input } from "@chakra-ui/react";
-import React, { useState } from "react";
+import {Button, Input} from "@chakra-ui/react";
+import React, {useState} from "react";
 
 type LoginProps = {};
 
@@ -10,6 +10,9 @@ const Login: React.FC<LoginProps> = () => {
   });
 
   const onSubmit = () => {};
+    /**
+     * 하나의 함수에서 동적으로 state value 변경
+     */
   const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     //update from state
     setLoginForm((prev) => ({
