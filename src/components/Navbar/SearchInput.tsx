@@ -6,6 +6,7 @@ type SearchInputProps = {
   // user:
 };
 
+// eslint-disable-next-line valid-jsdoc
 /**
  * _hover _focus 처럼 언더바 다음에 event name으로 설정 시 해당 이벤트 발생 시 style
  * 변경이 된다.
@@ -16,10 +17,8 @@ const SearchInput: React.FC<SearchInputProps> = () => {
   return (
     <Flex flexGrow={1} mr={2} align="center">
       <InputGroup>
-        <InputLeftElement
-          pointerEvents="none"
-          children={<SearchIcon color="gray.400" mb={1} />}
-        />
+        {/* eslint-disable-next-line react/no-children-prop */}
+        <InputLeftElement pointerEvents="none" children={<SearchIcon color="gray.400" mb={1} />} />
         <Input
           placeholder="Search Reddit"
           fontSize="10pt"
