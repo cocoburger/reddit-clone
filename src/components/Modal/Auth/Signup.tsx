@@ -5,6 +5,7 @@ import { useSetRecoilState } from "recoil";
 import { auth } from "@/firebase/clientApp";
 import { FIREBASE_ERRORS} from "@/firebase/errors";
 import { useCreateUserWithEmailAndPassword } from "react-firebase-hooks/auth";
+
 const Signup: React.FC = () => {
   const setAuthModalState = useSetRecoilState(authModalState);
   const [signUpForm, setSignUpForm] = useState({
@@ -20,7 +21,7 @@ const Signup: React.FC = () => {
 
     console.log(error)
   /**
-   * todo : Firebase logic
+   * Firebase logic
    */
   const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
@@ -31,6 +32,7 @@ const Signup: React.FC = () => {
       setErrorMsg("비밀번호가 일치하지 않습니다.");
       return;
     }
+    // React Firebase Hooks - Auth 사용
     createUserWithEmailAndPassword(signUpForm.email, signUpForm.password);
   };
   /**
