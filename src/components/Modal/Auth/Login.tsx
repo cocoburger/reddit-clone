@@ -1,7 +1,10 @@
-import { authModalState } from "../../../atoms/authModalAtom";
+import { authModalState } from "@/atoms/authModalAtom";
 import { Button, Flex, Input, Text } from "@chakra-ui/react";
 import React, { useState } from "react";
 import { useSetRecoilState } from "recoil";
+import {useSignInWithEmailAndPassword} from "react-firebase-hooks/auth";
+import { auth } from '@/firebase/clientApp';
+import {FIREBASE_ERRORS} from "@/firebase/errors";
 
 type LoginProps = {};
 
@@ -12,10 +15,23 @@ const Login: React.FC<LoginProps> = () => {
     password: "",
   });
 
-  /**
+    const [
+        signInWithEmailAndPassword,
+        user,
+        loading,
+        error,
+    ] = useSignInWithEmailAndPassword(auth);
+
+
+    /**
    * todo : Firebase logic
    */
-  const onSubmit = () => {};
+  const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+      event.preventDefault();
+
+      let result = await signInWithEmailAndPassword(loginForm.email, loginForm.password);
+
+    };
   /**
    * 하나의 함수에서 동적으로 state value 변경
    */
@@ -56,7 +72,7 @@ const Login: React.FC<LoginProps> = () => {
         name="password"
         placeholder="password"
         type="password"
-        mb={2}
+        mb={1}
         onChange={onChange}
         fontSize="10pt"
         _placeholder={{ color: "gray.500" }}
@@ -73,26 +89,46 @@ const Login: React.FC<LoginProps> = () => {
         }}
         bg="gray.50"
       />
-      <Button width="100%" height="36px" mt={2} mb={2} type="submit">
+      <Text textAlign='center' color='red' fontSize='10pt'>{FIREBASE_ERRORS[error?.message as keyof typeof FIREBASE_ERRORS]}</Text>
+
+      <Button width="100%" height="36px" mt={2} mb={3} type="submit" isLoading={loading}>
         로그인
       </Button>
+        <Flex fontSize="9pt" justifyContent="center" mb={2}>
+            <Text mr={1} fontWeight={550}>
+                비밀번호를 잃어버리셨나요?
+            </Text>
+            <Text
+                color="blue.500"
+                fontWeight={800}
+                cursor="pointer"
+                onClick={() =>
+                    setAuthModalState((prev) => ({
+                        ...prev,
+                        view: "resetPassword",
+                    }))
+                }
+            >
+                비밀번호 찾기
+            </Text>
+        </Flex>
       <Flex fontSize="9pt" justifyContent="center">
-        <Text mr={1} fontWeight={550}>
-          새로운 손님이세요? &nbsp;
-        </Text>
-        <Text
-          color="blue.500"
-          fontWeight={800}
-          cursor="pointer"
-          onClick={() =>
-            setAuthModalState((prev) => ({
-              ...prev,
-              view: "signup",
-            }))
-          }
-        >
-          회원가입
-        </Text>
+          <Text mr={1} fontWeight={550}>
+              새로운 손님이세요? &nbsp;
+          </Text>
+          <Text
+              color="blue.500"
+              fontWeight={800}
+              cursor="pointer"
+              onClick={() =>
+                  setAuthModalState((prev) => ({
+                      ...prev,
+                      view: "signup",
+                  }))
+              }
+          >
+              회원가입
+          </Text>
       </Flex>
     </form>
   );
