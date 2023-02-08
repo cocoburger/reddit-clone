@@ -22,37 +22,54 @@ const UserMenu: React.FC<UserMenuProps> = ({user}) => {
       <Menu>
         <MenuButton cursor='pointer' padding='0px 6px' borderRadius={4}
                     _hover={{outline: '1px solid', outlineColor: 'gray.200'}}>
-          {user ? (
-              <Flex>
-                <Flex align='center'>
+          <Flex>
+            <Flex align='center'>
+              {user ? (
                   <>
                     <Icon fontSize={24} mr={1} color='gray.300' as={FaRedditSquare}/>
                   </>
-                  <ChevronDownIcon/>
-                </Flex>
-              </Flex>
-          ) : (
-              <Icon fontSize={24} color='gary.400' mr={1} as={VscAccount}/>
-          )}
+              ) : (
+                  <Icon fontSize={24} color='gary.400' mr={1} as={VscAccount}/>
+              )}
+            </Flex>
+            <ChevronDownIcon/>
+          </Flex>
         </MenuButton>
         <MenuList>
-          <MenuItem fontSize='10pt' fontWeight={700} _hover={{bg: 'blue.500', color: 'white'}}>
-            <Flex align='center'>
-              <Icon fontSize={20} mr={2} as={CgProfile}/>
-              프로필
-            </Flex>
-          </MenuItem>
-          <MenuDivider/>
-          <MenuItem fontSize='10pt' fontWeight={700} _hover={{bg: 'blue.500', color: 'white'}}
-                    onClick={() => {
-                      signOut(auth)
-                    }}
-          >
-            <Flex align='center'>
-              <Icon fontSize={20} mr={2} as={MdOutlineLogin}/>
-              로그아웃
-            </Flex>
-          </MenuItem>
+          {user ? (
+              <>
+                <MenuItem fontSize='10pt' fontWeight={700} _hover={{bg: 'blue.500', color: 'white'}}>
+                  <Flex align='center'>
+                    <Icon fontSize={20} mr={2} as={CgProfile}/>
+                    프로필
+                  </Flex>
+                </MenuItem>
+                <MenuDivider/>
+                <MenuItem fontSize='10pt' fontWeight={700} _hover={{bg: 'blue.500', color: 'white'}}
+                          onClick={() => {
+                            signOut(auth)
+                          }}
+                >
+                  <Flex align='center'>
+                    <Icon fontSize={20} mr={2} as={MdOutlineLogin}/>
+                    로그아웃
+                  </Flex>
+                </MenuItem>
+              </>
+          ) : (
+              <>
+                <MenuItem fontSize='10pt' fontWeight={700} _hover={{bg: 'blue.500', color: 'white'}}
+                          onClick={() => {
+                            signOut(auth)
+                          }}
+                >
+                  <Flex align='center'>
+                    <Icon fontSize={20} mr={2} as={MdOutlineLogin}/>
+                    로그인 / 로그아웃
+                  </Flex>
+                </MenuItem>
+              </>
+          )}
         </MenuList>
       </Menu>
   );
