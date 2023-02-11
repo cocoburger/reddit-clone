@@ -1,14 +1,16 @@
 import React from 'react';
 import {ChevronDownIcon} from "@chakra-ui/icons";
 import {Menu, MenuButton, MenuDivider, MenuItem, MenuList} from "@chakra-ui/menu";
-import {Button, Flex, Icon} from "@chakra-ui/react";
+import {Button, Flex, Icon, Text} from "@chakra-ui/react";
 import {signOut, User} from 'firebase/auth';
-import {FaRedditSquare} from "react-icons/all";
-import {VscAccount} from "react-icons/all";
+import {FaRedditSquare} from "react-icons/fa";
+import {VscAccount} from "react-icons/vsc";
 import {IoSparkles} from "react-icons/io5";
 import {CgProfile} from "react-icons/cg";
-import {MdOutlineLogin} from "react-icons/all";
+import {MdOutlineLogin} from "react-icons/md";
 import {auth} from "@/firebase/clientApp";
+import {useSetRecoilState} from "recoil";
+import {authModalState} from "@/atoms/authModalAtom";
 
 // ?(oprional propertise) 선택적 속성
 // ?가 없다면 user는 필수값이지만, ?를 붙여준다면 optional이 된다.
@@ -18,6 +20,7 @@ type UserMenuProps = {
 }
 
 const UserMenu: React.FC<UserMenuProps> = ({user}) => {
+  const setAuthModalState = useSetRecoilState(authModalState);
   return (
       <Menu>
         <MenuButton cursor='pointer' padding='0px 6px' borderRadius={4}
@@ -27,6 +30,19 @@ const UserMenu: React.FC<UserMenuProps> = ({user}) => {
               {user ? (
                   <>
                     <Icon fontSize={24} mr={1} color='gray.300' as={FaRedditSquare}/>
+                    <Flex direction='column' display={{base: 'none', lg: 'flex'}}
+                          fontSize="8pt"
+                          align='flex-start'
+                          mr={8}
+                    >
+                      <Text fontWeight={700}>
+                        {user?.displayName || user?.email?.split("@")[0]}
+                      </Text>
+                      <Flex>
+                        <Icon as={IoSparkles} color='brand.100' mr={1}/>
+                        <Text color='gray.400'> 1 karma </Text>
+                      </Flex>
+                    </Flex>
                   </>
               ) : (
                   <Icon fontSize={24} color='gary.400' mr={1} as={VscAccount}/>
@@ -59,9 +75,7 @@ const UserMenu: React.FC<UserMenuProps> = ({user}) => {
           ) : (
               <>
                 <MenuItem fontSize='10pt' fontWeight={700} _hover={{bg: 'blue.500', color: 'white'}}
-                          onClick={() => {
-                            signOut(auth)
-                          }}
+                          onClick={() => setAuthModalState({open: true, view: 'login'})}
                 >
                   <Flex align='center'>
                     <Icon fontSize={20} mr={2} as={MdOutlineLogin}/>
