@@ -8,7 +8,7 @@ const Communities: React.FC = () => {
   const [open, setOpen] = useState(false);
   return (
       <>
-        <CreateCommunityModal open={open}/>
+        <CreateCommunityModal open={open} handleClose={() => setOpen(false)}/>
         <MenuItem width='100%'
                   fontSize='10pt'
                   _hover={{bg: 'gray.100'}}

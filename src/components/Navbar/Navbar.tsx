@@ -5,7 +5,6 @@ import SearchInput from "./SearchInput";
 import {useAuthState} from "react-firebase-hooks/auth";
 import {auth} from "@/firebase/clientApp";
 import Directory from "@/components/Layout/Navbar/Directory/Directory";
-import firebase from "firebase/compat";
 
 
 /**
