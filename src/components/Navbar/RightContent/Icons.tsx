@@ -6,7 +6,7 @@ import {
   IoFilterCircleOutline,
   IoNotificationsOutline,
   IoVideocamOutline
-} from 'react-icons/io5';
+} from "react-icons/io5";
 import {GrAdd} from 'react-icons/gr';
 import {Flex, Icon} from "@chakra-ui/react";
 
