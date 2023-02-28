@@ -1,35 +1,35 @@
-import { authModalState } from "@/atoms/authModalAtom";
-import { Button, Flex, Input, Text } from "@chakra-ui/react";
-import React, { useState } from "react";
-import { useSetRecoilState } from "recoil";
-import { auth } from "@/firebase/clientApp";
-import { FIREBASE_ERRORS} from "@/firebase/errors";
-import { useCreateUserWithEmailAndPassword } from "react-firebase-hooks/auth";
+import { authModalState } from '@/atoms/authModalAtom';
+import { Button, Flex, Input, Text } from '@chakra-ui/react';
+import React, { useState } from 'react';
+import { useSetRecoilState } from 'recoil';
+import { auth } from '@/firebase/clientApp';
+import { FIREBASE_ERRORS } from '@/firebase/errors';
+import { useCreateUserWithEmailAndPassword } from 'react-firebase-hooks/auth';
 
 const Signup: React.FC = () => {
   const setAuthModalState = useSetRecoilState(authModalState);
   const [signUpForm, setSignUpForm] = useState({
-    email: "",
-    password: "",
-    confirmPassword: "",
+    email: '',
+    password: '',
+    confirmPassword: '',
   });
 
-  const [errorMsg, setErrorMsg] = useState("");
+  const [errorMsg, setErrorMsg] = useState('');
 
   const [createUserWithEmailAndPassword, user, loading, error] =
     useCreateUserWithEmailAndPassword(auth);
 
-    console.log(error)
+  console.log(error);
   /**
    * Firebase logic
    */
   const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-        event.preventDefault();
-        if (error) setErrorMsg('')
-      //passwords match
+    event.preventDefault();
+    if (error) setErrorMsg('');
+    //passwords match
     if (signUpForm.password !== signUpForm.confirmPassword) {
       // setError
-      setErrorMsg("비밀번호가 일치하지 않습니다.");
+      setErrorMsg('비밀번호가 일치하지 않습니다.');
       return;
     }
     // React Firebase Hooks - Auth 사용
@@ -46,95 +46,101 @@ const Signup: React.FC = () => {
     }));
   };
 
-    return (
+  return (
     <form onSubmit={onSubmit}>
       <Input
         required
-        name="email"
-        placeholder="email"
-        type="email"
+        name='email'
+        placeholder='email'
+        type='email'
         mb={2}
         onChange={onChange}
-        fontSize="10pt"
-        _placeholder={{ color: "gray.500" }}
+        fontSize='10pt'
+        _placeholder={{ color: 'gray.500' }}
         _hover={{
-          bg: "white",
-          border: "1px solid",
-          borderColor: "blue.500",
+          bg: 'white',
+          border: '1px solid',
+          borderColor: 'blue.500',
         }}
         _focus={{
-          outline: "none",
-          bg: "white",
-          border: "1px solid",
-          borderColor: "blue.500",
+          outline: 'none',
+          bg: 'white',
+          border: '1px solid',
+          borderColor: 'blue.500',
         }}
-        bg="gray.50"
+        bg='gray.50'
       />
       <Input
         required
-        name="password"
-        placeholder="password"
-        type="password"
+        name='password'
+        placeholder='password'
+        type='password'
         mb={2}
         onChange={onChange}
-        fontSize="10pt"
-        _placeholder={{ color: "gray.500" }}
+        fontSize='10pt'
+        _placeholder={{ color: 'gray.500' }}
         _hover={{
-          bg: "white",
-          border: "1px solid",
-          borderColor: "blue.500",
+          bg: 'white',
+          border: '1px solid',
+          borderColor: 'blue.500',
         }}
         _focus={{
-          outline: "none",
-          bg: "white",
-          border: "1px solid",
-          borderColor: "blue.500",
+          outline: 'none',
+          bg: 'white',
+          border: '1px solid',
+          borderColor: 'blue.500',
         }}
-        bg="gray.50"
+        bg='gray.50'
       />
       <Input
         required
-        name="confirmPassword"
-        placeholder="confirmPassword"
-        type="password"
+        name='confirmPassword'
+        placeholder='confirmPassword'
+        type='password'
         mb={2}
         onChange={onChange}
-        fontSize="10pt"
-        _placeholder={{ color: "gray.500" }}
+        fontSize='10pt'
+        _placeholder={{ color: 'gray.500' }}
         _hover={{
-          bg: "white",
-          border: "1px solid",
-          borderColor: "blue.500",
+          bg: 'white',
+          border: '1px solid',
+          borderColor: 'blue.500',
         }}
         _focus={{
-          outline: "none",
-          bg: "white",
-          border: "1px solid",
-          borderColor: "blue.500",
+          outline: 'none',
+          bg: 'white',
+          border: '1px solid',
+          borderColor: 'blue.500',
         }}
-        bg="gray.50"
+        bg='gray.50'
       />
-      <Text textAlign="center" color="red" fontSize="10pt">
-        {
-          errorMsg || FIREBASE_ERRORS[error?.message as keyof typeof FIREBASE_ERRORS]
-        }
+      <Text textAlign='center' color='red' fontSize='10pt'>
+        {errorMsg ||
+          FIREBASE_ERRORS[error?.message as keyof typeof FIREBASE_ERRORS]}
       </Text>
 
-      <Button width="100%" height="36px" mt={2} mb={2} type="submit" isLoading={loading}>
+      <Button
+        width='100%'
+        height='36px'
+        mt={2}
+        mb={2}
+        type='submit'
+        isLoading={loading}
+      >
         회원가입
       </Button>
-      <Flex fontSize="9pt" justifyContent="center">
+      <Flex fontSize='9pt' justifyContent='center'>
         <Text mr={1} fontWeight={550}>
           이미 계정이 있으신가요? &nbsp;
         </Text>
         <Text
-          color="blue.500"
+          color='blue.500'
           fontWeight={800}
-          cursor="pointer"
+          cursor='pointer'
           onClick={() =>
             setAuthModalState((prev) => ({
               ...prev,
-              view: "login",
+              view: 'login',
             }))
           }
         >
