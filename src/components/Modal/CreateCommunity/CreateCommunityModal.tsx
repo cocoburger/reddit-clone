@@ -51,7 +51,7 @@ const CreateCommunityModal: React.FC<CreateCommunityModalProps> = ({
 
   return (
     <>
-      <Modal isOpen={open} onClose={handleClose}>
+      <Modal isOpen={open} onClose={handleClose} size='lg'>
         <ModalOverlay />
         <ModalContent>
           <ModalHeader
