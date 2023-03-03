@@ -19,9 +19,10 @@ import {
 } from '@chakra-ui/react';
 import { BsFillEyeFill, BsFillPersonFill } from 'react-icons/bs';
 import { HiLockClosed } from 'react-icons/hi';
-import { doc, getDoc, setDoc, serverTimestamp } from '@firebase/firestore';
+import { doc, serverTimestamp } from '@firebase/firestore';
 import { auth, firestore } from '@/firebase/clientApp';
 import { useAuthState } from 'react-firebase-hooks/auth';
+import { runTransaction } from 'firebase/firestore';
 
 type CreateCommunityModalProps = {
   open: boolean;
@@ -67,28 +68,39 @@ const CreateCommunityModal: React.FC<CreateCommunityModalProps> = ({
     //  check that name is not taken
     // If valid name, create community
     try {
+      // Create community document and communitySnippet subcollection document on user
       const communityDocRef = doc(firestore, 'communities', communityName);
+      await runTransaction(firestore, async (transaction) => {
+        const communityDoc = await transaction.get(communityDocRef);
+        if (communityDoc.exists()) {
+          throw new Error(`Sorry, /r${communityName} is taken. Try another.`);
+        }
 
-      //check if community exists in db
-      const communityDoc = await getDoc(communityDocRef);
-      if (communityDoc.exists()) {
-        throw new Error(`Sorry r/${communityName} is taken, Try anoter.`);
-      }
-      console.log(user);
-      await setDoc(communityDocRef, {
-        creatorId: user?.uid,
-        createdAt: serverTimestamp(),
-        numberOfMembers: 1,
-        privacyType: communityType,
+        transaction.set(communityDocRef, {
+          creatorId: user?.uid,
+          createdAt: serverTimestamp(),
+          numberOfMembers: 1,
+          privacyType: communityType,
+        });
+
+        transaction.set(
+          doc(firestore, `users/${user?.uid}/communitySnippets`, communityName),
+          {
+            communityId: communityName,
+            isModerator: true,
+          },
+        );
       });
-    } catch (e: any) {
-      console.log('handleCreateCommunity error', error);
-      setError(e.message);
+    } catch (error: any) {
+      console.log('Transaction error', error);
+      setError(error.message);
     }
+
+    handleClose();
     setLoading(false);
   };
 
-  // public이 defaultValue이므로 초기화 해준다.
+  // public defaultValue이므로 초기화 해준다.
   useEffect(() => {
     if (!open) setCommunityType('public');
   }, [open]);
