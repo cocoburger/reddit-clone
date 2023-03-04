@@ -2,15 +2,15 @@ import React from 'react';
 import { GetServerSidePropsContext } from 'next';
 import { firestore } from '@/firebase/clientApp';
 import { doc, getDoc } from '@firebase/firestore';
+import { Community } from '@/atoms/communitiesAtom';
+import safeJsonStringify from 'safe-json-stringify';
+type CommunityPageProps = {
+  communityData: Community;
+};
 
-type CommunityPageProps = {};
-
-const CommunityPage: React.FC<CommunityPageProps> = () => {
-  return (
-    <div>
-      <h1>Community Page</h1>
-    </div>
-  );
+const CommunityPage: React.FC<CommunityPageProps> = ({ communityData }) => {
+  console.log();
+  return <div>WELCOME TO {communityData?.id}</div>;
 };
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
@@ -29,11 +29,14 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
     const communityDoc = await getDoc(communityDocRef);
     return {
       props: {
-        community: communityDoc.data(),
+        communityData: JSON.parse(
+          safeJsonStringify({ id: communityDoc.id, ...communityDoc.data() }),
+        ),
       },
     };
   } catch (error) {
-    console.log(error);
+    //CLOUD ADD ERROR PAGE HERE
+    console.log(`getServerSideprops error: ${error}`);
   }
 }
 
