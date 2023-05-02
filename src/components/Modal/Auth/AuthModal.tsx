@@ -36,7 +36,6 @@ const AuthModal: React.FC = () => {
 
   useEffect(() => {
     if (user) handleClose();
-    console.log('user', user);
   }, [user]);
 
   return (
@@ -50,19 +49,8 @@ const AuthModal: React.FC = () => {
             {modalState.view === 'resetPassword' && 'Reset Password'}
           </ModalHeader>
           <ModalCloseButton />
-          <ModalBody
-            display='flex'
-            flexDirection='column'
-            alignItems='center'
-            justifyContent='center'
-            pb={6}
-          >
-            <Flex
-              direction='column'
-              align='center'
-              justify='center'
-              width='70%'
-            >
+          <ModalBody display='flex' flexDirection='column' alignItems='center' justifyContent='center' pb={6}>
+            <Flex direction='column' align='center' justify='center' width='70%'>
               {modalState.view === 'login' || modalState.view === 'signup' ? (
                 <>
                   <OAuthButtons />
@@ -81,17 +69,10 @@ const AuthModal: React.FC = () => {
                         marginTop: '2px',
                       }}
                     ></span>
-                    <Text
-                      color='gray.500'
-                      fontWeight={700}
-                      mb={1}
-                      style={{ fontSize: '14px', lineHeight: '8px' }}
-                    >
+                    <Text color='gray.500' fontWeight={700} mb={1} style={{ fontSize: '14px', lineHeight: '8px' }}>
                       OR
                     </Text>
-                    <span
-                      style={{ borderTop: '1px solid #edeff1', width: '40%' }}
-                    ></span>
+                    <span style={{ borderTop: '1px solid #edeff1', width: '40%' }}></span>
                   </div>
                   <AuthInputs />
                 </>

@@ -6,17 +6,27 @@ import { Community } from '@/atoms/communitiesAtom';
 import safeJsonStringify from 'safe-json-stringify';
 import CommunityNotFound from '@/components/Community/NotFound';
 import Header from '@/components/Community/Header';
+import PageContent from '@/components/Layout/PageContent';
 type CommunityPageProps = {
   communityData: Community;
 };
 
 const CommunityPage: React.FC<CommunityPageProps> = ({ communityData }) => {
+  console.log(communityData);
   if (!communityData) {
     return <CommunityNotFound />;
   }
   return (
     <>
       <Header communityData={communityData} />
+      <PageContent>
+        <>
+          <div>LHS </div>
+        </>
+        <>
+          <div>RHS </div>
+        </>
+      </PageContent>
     </>
   );
 };
@@ -29,6 +39,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
   // 이 문서 참조를 사용하여 해당 문서의 데이터를 가져올 수 있습니다.
   try {
     const communityDocRef = doc(firestore, 'communities', context.query.communityId as string);
+    console.log(communityDocRef);
     //getDoc() 함수를 사용하여 문서 참조에서 해당 문서의 데이터를 가져옵니다.
     const communityDoc = await getDoc(communityDocRef);
     return {
@@ -48,6 +59,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
     // 아래 에러가 발생했기에 return을 해주었다.
     // error - Error: Your `getServerSideProps` function did not return an object. Did you forget to add a `return`?
     console.log(`getServerSideprops error: ${error}`);
+    console.error(`getServerSideprops error: ${error}`);
     return {
       props: {
         communityData: {},
