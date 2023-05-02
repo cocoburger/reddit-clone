@@ -5,6 +5,7 @@ import { doc, getDoc } from '@firebase/firestore';
 import { Community } from '@/atoms/communitiesAtom';
 import safeJsonStringify from 'safe-json-stringify';
 import CommunityNotFound from '@/components/Community/NotFound';
+import Header from '@/components/Community/Header';
 type CommunityPageProps = {
   communityData: Community;
 };
@@ -13,7 +14,11 @@ const CommunityPage: React.FC<CommunityPageProps> = ({ communityData }) => {
   if (!communityData) {
     return <CommunityNotFound />;
   }
-  return <div>WELCOME TO {communityData?.id}</div>;
+  return (
+    <>
+      <Header communityData={communityData} />
+    </>
+  );
 };
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
