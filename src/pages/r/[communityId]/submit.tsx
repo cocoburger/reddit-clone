@@ -1,6 +1,7 @@
-// Navbar.tsx
+import React from 'react';
 
-// Your existing code for the Navbar component
+const Submit: React.FC = () => {
+  return <div>Submit</div>;
+};
 
-// Add the empty export statement at the bottom
-export {};
+export default Submit;
