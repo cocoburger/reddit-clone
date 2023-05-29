@@ -10,6 +10,7 @@ import Directory from '@/components/Layout/Navbar/Directory/Directory';
  * base: none은 모바일사이즈에서는 해당 이미지를 안보여주겠다, md(medium size)에서는 보여주겠다.
  */
 const Navbar: React.FC = () => {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [user, loading, error] = useAuthState(auth);
   return (
     <Flex

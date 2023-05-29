@@ -91,7 +91,7 @@ const CreateCommunityModal: React.FC<CreateCommunityModalProps> = ({
           },
         );
       });
-    } catch (error: any) {
+    } catch (error) {
       console.log('Transaction error', error);
       setError(error.message);
     }
