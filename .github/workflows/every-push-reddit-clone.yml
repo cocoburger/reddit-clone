@@ -1,7 +1,7 @@
 
 name: 'every-push-reddit-clone'
 
-# workflow 동작하게하는 trigger.
+# workflows 동작하게하는 trigger.
 # repository push 이벤트가 발생할 때마다 실행될 거예요.
 # push 말고도 여러 가지 이벤트들이 있다.
 on: push
