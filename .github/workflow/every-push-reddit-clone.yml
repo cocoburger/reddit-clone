@@ -24,13 +24,13 @@ jobs:
       # 마치 우리가 브랜치를 만들 때 checkout하는 것처럼요. 꼭 필요합니다.
       # 참고로 아래 코드는 누군가 만들어놓은 Action을 사용하는 겁니다.
       # 만들어놓은 Action을 사용할 때는 uses라는 키워드를 사용해야 돼요.
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v2
 
       # 해당 환경을 Node.js 위에서 실행하겠다고 명시해줍니다.
       # 저희 프로젝트는 리액트니깐요!
       # 마찬가지로 누군가 만들어 놓은 Action이겠죠?
       - name: Use Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v2
         # with라는 키워드로 Action에 값을 전달할 수 있어요.
         # 이 Action은 node-version이라는 값을 받을 수 있네요?
         # 아까 NODE_VERSION이라는 Secret을 만들었는데요,
@@ -44,7 +44,7 @@ jobs:
       # 모듈 변화가 있을 때만 npm install을 해줄 수도 있어요.
       - name: Cache node modules
         # 그걸 제공하는 Action도 있네요? 갖다 쓰겠습니다.
-        uses: actions/cache@v3
+        uses: actions/cache@v2
         # 해당 step을 대표하는 id를 설정할 수도 있어요.
         # 해당 값은 뒤의 step에서 사용해볼게요.
         id: cache
