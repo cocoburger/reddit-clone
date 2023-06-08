@@ -2,12 +2,18 @@ import React from 'react';
 import { Community } from '@/atoms/communitiesAtom';
 import { Box, Button, Flex, Icon, Image, Text } from '@chakra-ui/react';
 import { FaReddit } from 'react-icons/fa';
+import useCommunityData from '@/hooks/useCommunityData';
 
 type HeaderProps = {
   communityData: Community;
 };
 const Header: React.FC<HeaderProps> = ({ communityData }) => {
-  const isJoined = false; // read from our communitySnippets
+  const { communityStateValue, onJoinOrLeaveCommunity } = useCommunityData();
+  // undefined는 논리적인 참과 거짓을 나타내는 불리언 값 중 하나입니다.
+  // 따라서 !! 논리 부정 연산자를 사용하여 undefined 값을 불리언 값으로 변환할 수 있습니다.
+  const isJoined = !!communityStateValue.mySnippets.find(
+    (item) => item.communityId === communityData.id,
+  );
   return (
     <Flex direction='column' width='100%' height='146px'>
       <Box height='50%' bg='blue.400' />
@@ -34,7 +40,15 @@ const Header: React.FC<HeaderProps> = ({ communityData }) => {
                 r/{communityData?.id}
               </Text>
             </Flex>
-            <Button variant={isJoined ? 'outline' : 'solid'} height='30px' pr={6} pl={6} onClick={() => {}}>
+            <Button
+              variant={isJoined ? 'outline' : 'solid'}
+              height='30px'
+              pr={6}
+              pl={6}
+              onClick={() => {
+                onJoinOrLeaveCommunity(communityData, isJoined);
+              }}
+            >
               {isJoined ? 'Joined' : 'Join'}
             </Button>
           </Flex>
