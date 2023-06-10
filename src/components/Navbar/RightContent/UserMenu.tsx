@@ -15,8 +15,9 @@ import { IoSparkles } from 'react-icons/io5';
 import { CgProfile } from 'react-icons/cg';
 import { MdOutlineLogin } from 'react-icons/md';
 import { auth } from '@/firebase/clientApp';
-import { useSetRecoilState } from 'recoil';
+import { useResetRecoilState, useSetRecoilState } from 'recoil';
 import { authModalState } from '@/atoms/authModalAtom';
+import { communityState } from '@/atoms/communitiesAtom';
 
 // ?(oprional propertise) 선택적 속성
 // ?가 없다면 user는 필수값이지만, ?를 붙여준다면 optional이 된다.
@@ -26,7 +27,16 @@ type UserMenuProps = {
 };
 
 const UserMenu: React.FC<UserMenuProps> = ({ user }) => {
+  const resetCommunityState = useSetRecoilState(communityState);
   const setAuthModalState = useSetRecoilState(authModalState);
+
+  const logout = async () => {
+    await signOut(auth);
+    resetCommunityState({
+      mySnippets: [],
+    });
+    //clear community state
+  };
   return (
     <Menu>
       <MenuButton
@@ -86,9 +96,7 @@ const UserMenu: React.FC<UserMenuProps> = ({ user }) => {
               fontSize='10pt'
               fontWeight={700}
               _hover={{ bg: 'blue.500', color: 'white' }}
-              onClick={() => {
-                signOut(auth);
-              }}
+              onClick={logout}
             >
               <Flex align='center'>
                 <Icon fontSize={20} mr={2} as={MdOutlineLogin} />

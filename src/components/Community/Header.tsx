@@ -8,7 +8,8 @@ type HeaderProps = {
   communityData: Community;
 };
 const Header: React.FC<HeaderProps> = ({ communityData }) => {
-  const { communityStateValue, onJoinOrLeaveCommunity } = useCommunityData();
+  const { communityStateValue, onJoinOrLeaveCommunity, loading } =
+    useCommunityData();
   // undefined는 논리적인 참과 거짓을 나타내는 불리언 값 중 하나입니다.
   // 따라서 !! 논리 부정 연산자를 사용하여 undefined 값을 불리언 값으로 변환할 수 있습니다.
   const isJoined = !!communityStateValue.mySnippets.find(
@@ -48,6 +49,7 @@ const Header: React.FC<HeaderProps> = ({ communityData }) => {
               onClick={() => {
                 onJoinOrLeaveCommunity(communityData, isJoined);
               }}
+              isLoading={loading}
             >
               {isJoined ? 'Joined' : 'Join'}
             </Button>
