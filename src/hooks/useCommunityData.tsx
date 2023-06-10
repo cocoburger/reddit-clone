@@ -1,6 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { useRecoilState } from 'recoil';
-import { Community, communityState } from '@/atoms/communitiesAtom';
+import {
+  Community,
+  CommunitySnippet,
+  communityState,
+} from '@/atoms/communitiesAtom';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { collection, getDocs } from '@firebase/firestore';
 import { auth, firestore } from '@/firebase/clientApp';
