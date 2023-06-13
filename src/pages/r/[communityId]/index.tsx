@@ -7,6 +7,7 @@ import safeJsonStringify from 'safe-json-stringify';
 import CommunityNotFound from '@/components/Community/NotFound';
 import Header from '@/components/Community/Header';
 import PageContent from '@/components/Layout/PageContent';
+import CreatePostLink from '@/components/Community/CreatePostLink';
 type CommunityPageProps = {
   communityData: Community;
 };
@@ -21,7 +22,7 @@ const CommunityPage: React.FC<CommunityPageProps> = ({ communityData }) => {
       <Header communityData={communityData} />
       <PageContent>
         <>
-          <div>LHS </div>
+          <CreatePostLink />
         </>
         <>
           <div>RHS </div>
@@ -38,7 +39,11 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
   // 반환된 DocumentReference 인스턴스는 firestore 인스턴스의 communities 컬렉션 내에서 context.query.communityId 값과 일치하는 문서를 참조합니다.
   // 이 문서 참조를 사용하여 해당 문서의 데이터를 가져올 수 있습니다.
   try {
-    const communityDocRef = doc(firestore, 'communities', context.query.communityId as string);
+    const communityDocRef = doc(
+      firestore,
+      'communities',
+      context.query.communityId as string,
+    );
     console.log(communityDocRef);
     //getDoc() 함수를 사용하여 문서 참조에서 해당 문서의 데이터를 가져옵니다.
     const communityDoc = await getDoc(communityDocRef);
