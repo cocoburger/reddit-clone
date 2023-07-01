@@ -8,7 +8,7 @@ type TabItemType = {
   setSelectedTab: (value: string) => void;
 };
 
-const TabItem: React.FC<TabItemType> = ({ item, selected }) => {
+const TabItem: React.FC<TabItemType> = ({ item, selected, setSelectedTab }) => {
   return (
     <Flex
       align='center'
@@ -16,12 +16,15 @@ const TabItem: React.FC<TabItemType> = ({ item, selected }) => {
       flexGrow={1}
       p='14px 0px'
       cursor='pointer'
+      fontWeight={700}
       _hover={{ bg: 'gray.50' }}
       color={selected ? 'blue.500' : 'gray.500'}
       borderWidth={selected ? '0px 1px 2px 0px' : '0px 1px 1px 0px'}
       borderBottomColor={selected ? 'blue.500' : 'gray.200'}
       borderRightColor='gray.200'
-      onClick={() => {}}
+      onClick={() => {
+        setSelectedTab(item.title);
+      }}
     >
       <Flex>
         <Icon as={item.icon} />
