@@ -5,6 +5,7 @@ import { IoImageOutline, IoDocumentText } from 'react-icons/io5';
 import { BsLink45Deg, BsMic } from 'react-icons/bs';
 import TabItem from './TabItem';
 import TextInput from '@/components/Posts/PostForm/TextInput';
+import ImageUpload from '@/components/Posts/PostForm/ImageUpload';
 
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
@@ -83,6 +84,7 @@ const NewPostForm: React.FC = () => {
             loading={loading}
           />
         )}
+        {selectedTab === 'Image & Video' && <ImageUpload />}
       </Flex>
     </Flex>
   );
