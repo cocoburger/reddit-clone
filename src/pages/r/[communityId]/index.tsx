@@ -8,12 +8,13 @@ import CommunityNotFound from '@/components/Community/NotFound';
 import Header from '@/components/Community/Header';
 import PageContent from '@/components/Layout/PageContent';
 import CreatePostLink from '@/components/Community/CreatePostLink';
+import Posts from '@/components/Posts/Posts';
 type CommunityPageProps = {
   communityData: Community;
 };
 
 const CommunityPage: React.FC<CommunityPageProps> = ({ communityData }) => {
-  console.log(communityData);
+  console.log('communityData : dsadsa', communityData);
   if (!communityData) {
     return <CommunityNotFound />;
   }
@@ -23,6 +24,7 @@ const CommunityPage: React.FC<CommunityPageProps> = ({ communityData }) => {
       <PageContent>
         <>
           <CreatePostLink />
+          <Posts communityData={communityData} />
         </>
         <>
           <div>RHS </div>
@@ -47,6 +49,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
     console.log(communityDocRef);
     //getDoc() 함수를 사용하여 문서 참조에서 해당 문서의 데이터를 가져옵니다.
     const communityDoc = await getDoc(communityDocRef);
+    console.log('communityDoc :', communityDoc);
     return {
       props: {
         communityData: communityDoc.exists()
@@ -56,7 +59,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
                 ...communityDoc.data(),
               }),
             )
-          : {},
+          : [],
       },
     };
   } catch (error) {

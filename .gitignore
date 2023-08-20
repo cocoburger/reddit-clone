@@ -39,3 +39,6 @@ next-env.d.ts
 functions
 firebaserc
 firebase.json
+/.idea/codeStyles/codeStyleConfig.xml
+/.idea/prettier.xml
+/.firebaserc
