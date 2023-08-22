@@ -8,11 +8,11 @@ import {
   where,
 } from '@firebase/firestore';
 import { auth, firestore } from '@/firebase/clientApp';
-import { useRecoilState } from 'recoil';
 import usePosts from '@/hooks/usePosts';
-import { Post } from '@/atoms/postsAtom';
 import PostItem from '@/components/Posts/PostItem';
 import { useAuthState } from 'react-firebase-hooks/auth';
+import { Stack } from '@chakra-ui/react';
+import PostLoader from '@/components/Posts/PostLoader';
 
 type PostsProps = {
   communityData: Community;
@@ -31,6 +31,7 @@ const Posts: React.FC<PostsProps> = ({ communityData }) => {
   } = usePosts();
   const getPosts = async () => {
     try {
+      setLoading(true);
       //get posts for this community
       const postsQuery = query(
         collection(firestore, 'posts'),
@@ -45,8 +46,10 @@ const Posts: React.FC<PostsProps> = ({ communityData }) => {
         posts: posts,
       }));
     } catch (e) {
+      setLoading(false);
       console.log('getPost error : ', e);
     }
+    setLoading(false);
   };
 
   useEffect(() => {
@@ -54,18 +57,24 @@ const Posts: React.FC<PostsProps> = ({ communityData }) => {
   }, []);
   return (
     <>
-      {postStateValue.posts.length > 0 &&
-        postStateValue?.posts?.map((item, idx) => (
-          <PostItem
-            key={idx}
-            userIsCreator={user?.uid === item.creatorId}
-            post={item}
-            userVoteValue={undefined}
-            onVote={onVote}
-            onDeletePost={onDeletePost}
-            onSelectPost={onSelectPost}
-          />
-        ))}
+      {loading ? (
+        <PostLoader />
+      ) : (
+        <Stack>
+          {postStateValue.posts.length > 0 &&
+            postStateValue?.posts?.map((item) => (
+              <PostItem
+                key={item.creatorId}
+                userIsCreator={user?.uid === item.creatorId}
+                post={item}
+                userVoteValue={undefined}
+                onVote={onVote}
+                onDeletePost={onDeletePost}
+                onSelectPost={onSelectPost}
+              />
+            ))}
+        </Stack>
+      )}
     </>
   );
 };

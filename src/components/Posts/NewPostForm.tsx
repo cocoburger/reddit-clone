@@ -6,7 +6,6 @@ import {
   AlertTitle,
   Flex,
   Icon,
-  Text,
 } from '@chakra-ui/react';
 import { BiPoll } from 'react-icons/bi';
 import { IoImageOutline, IoDocumentText } from 'react-icons/io5';
@@ -30,10 +29,6 @@ import { firestore, storage } from '@/firebase/clientApp';
 type NewPostFormProps = {
   user: User;
 };
-
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore
-const formTabs: TabItem[] = [];
 
 const formTab = [
   {
@@ -104,14 +99,14 @@ const NewPostForm: React.FC<NewPostFormProps> = ({ user }) => {
           imageURL: downloadURL,
         });
       }
+
+      //redirect the user to the communityPage using the router
+      router.back();
     } catch (e: any) {
       console.log('handlecreatePost error', e.message);
       setError(true);
     }
     setLoading(false);
-
-    //redirect the user to the communityPage using the router
-    //    router.back();
   };
 
   const onSelectImage = (event: React.ChangeEvent<HTMLInputElement>) => {
