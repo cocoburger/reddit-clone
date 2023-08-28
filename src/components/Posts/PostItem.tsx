@@ -9,9 +9,12 @@ import {
   IoArrowUpCircleSharp,
   IoBookmarkOutline,
 } from 'react-icons/io5';
+import { FaReddit } from 'react-icons/fa';
+import { BsDot } from 'react-icons/bs';
 import moment from 'moment';
 import { BsChat } from 'react-icons/bs';
 import { AiOutlineDelete } from 'react-icons/ai';
+import Link from 'next/link';
 
 type PostItemProps = {
   post?: Post;
@@ -20,6 +23,7 @@ type PostItemProps = {
   onVote?: () => {};
   onSelectPost?: () => void;
   onDeletePost?: () => {};
+  homePage?: boolean;
 };
 
 const PostItem: React.FC<PostItemProps> = ({
@@ -29,6 +33,7 @@ const PostItem: React.FC<PostItemProps> = ({
   onVote,
   onSelectPost,
   onDeletePost,
+  homePage,
 }) => {
   const [loadingImage, setLoadingImage] = useState(true);
   return (
@@ -74,7 +79,29 @@ const PostItem: React.FC<PostItemProps> = ({
       <Flex direction='column' width='100%'>
         <Stack spacing={1} p='10px'>
           <Stack direction='row' spacing={0.6} align='center' fontSize='9pt'>
-            {/*{home page check}*/}
+            {homePage && (
+              <>
+                {post.communityImageURL ? (
+                  <Image
+                    src={post.communityImageURL}
+                    borderRadius='full'
+                    boxSize='18px'
+                    mr={2}
+                  />
+                ) : (
+                  <Icon as={FaReddit} fontSize='18pt' mr={1} color='blue.500' />
+                )}
+                <Link href={`r/${post.communityId}`}>
+                  <Text
+                    fontWeight={700}
+                    _hover={{ textDecoration: 'underline' }}
+                  >
+                    {`r/${post.communityId}`}
+                  </Text>
+                </Link>
+                <Icon as={BsDot} color='gray.500' fontSize={8} />
+              </>
+            )}
             <Text>
               Posted by u/{post.creatorDisplayName} {''}{' '}
             </Text>

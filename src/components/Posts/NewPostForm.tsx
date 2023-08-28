@@ -28,6 +28,7 @@ import { firestore, storage } from '@/firebase/clientApp';
 
 type NewPostFormProps = {
   user: User;
+  communityImageURL?: string;
 };
 
 const formTab = [
@@ -58,7 +59,10 @@ export type TabItemProps = {
   icon: typeof Icon.arguments;
 };
 
-const NewPostForm: React.FC<NewPostFormProps> = ({ user }) => {
+const NewPostForm: React.FC<NewPostFormProps> = ({
+  user,
+  communityImageURL,
+}) => {
   const router = useRouter();
   const [selectedTab, setSelectedTab] = useState(formTab[0].title);
   const [textInput, setTextInput] = useState({
@@ -73,6 +77,7 @@ const NewPostForm: React.FC<NewPostFormProps> = ({ user }) => {
     //create new post object => type Post
     const newPost: Post = {
       communityId: communityId as string,
+      communityImageURL: communityImageURL || '',
       creatorId: user?.uid,
       creatorDisplayName: user.email?.split('@')[0],
       title: textInput.title,

@@ -4,9 +4,11 @@ import { Box, Text } from '@chakra-ui/react';
 import NewPostForm from '@/components/Posts/NewPostForm';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { auth } from '@/firebase/clientApp';
+import useCommunityData from '@/hooks/useCommunityData';
 
 const SubmitPostPage: React.FC = () => {
   const [user] = useAuthState(auth);
+  const { communityStateValue } = useCommunityData();
   return (
     <PageContent>
       <>
@@ -14,7 +16,12 @@ const SubmitPostPage: React.FC = () => {
           <Text>Create a Post</Text>
         </Box>
         {/*New Post*/}
-        {user && <NewPostForm user={user} />}
+        {user && (
+          <NewPostForm
+            user={user}
+            communityImageURL={communityStateValue?.communityImageURL?.imageURL}
+          />
+        )}
       </>
       <>{/*about*/}</>
     </PageContent>
